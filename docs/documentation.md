@@ -5,32 +5,13 @@ tables (with an optional extensions accordion) on any WordPress site.
 
 **Module version:** `2.0.0`
 
-> **Upgrading from 1.x?** This is a breaking release. See
-> [Upgrading to 2.0](#upgrading-to-20) at the bottom.
+This document is the in-tree mirror of [`README.md`](../README.md) —
+keep them in sync. The README is what GitHub renders; this file is
+what ships next to the code for offline reading.
 
 ---
 
-## Install
-
-This module is distributed as a standalone Git repo — the folder
-**is** the repo. Pick one install path:
-
-### Option A — Git clone (recommended, gives you updates)
-
-From your theme folder:
-
-```powershell
-cd wp-content/themes/<your-theme>
-git clone https://github.com/josipmestrovic/ecom-dynamic-tables.git dynamic-tables
-```
-
-### Option B — Manual copy (no version link)
-
-Download the repo as a ZIP from GitHub and unzip it as
-`wp-content/themes/<your-theme>/dynamic-tables/`. You won't be able to
-`git pull` future updates — you'd have to re-download.
-
-### Activation (both options)
+## Activation
 
 Add this single line to your child theme's `functions.php`:
 
@@ -45,74 +26,16 @@ that don't use a shortcode incur zero asset cost.
 
 ---
 
-## Working with this component
-
-The folder you just cloned has its own `.git` directory — it's a normal
-git repo that happens to live inside a WordPress theme. Edit files
-normally; sync with plain git commands.
-
-### Pull updates from GitHub
-
-```powershell
-cd wp-content/themes/<your-theme>/dynamic-tables
-git pull
-```
-
-Hard-refresh the browser. Asset cache-busting is automatic via
-`filemtime()`.
-
-### Push local improvements upstream
-
-```powershell
-cd wp-content/themes/<your-theme>/dynamic-tables
-git status
-git add .
-git commit -m "Fix chevron alignment on mobile"
-git push
-```
-
-### Releasing a new version
-
-1. Bump version in **two places**:
-   - `dynamic-tables.php` → `ECOM_DT_VERSION` constant.
-   - `README.md` → "Module version" line at top + new Changelog entry.
-2. Commit + tag + push:
-   ```powershell
-   git add .
-   git commit -m "Release 2.1.0: <one-line summary>"
-   git tag v2.1.0
-   git push
-   git push --tags
-   ```
-
-Other sites opt-in with their next `git pull`. To pin a site to an
-exact version: `git checkout v2.1.0`.
-
-### Semver
-
-| Change | Bump |
-| --- | --- |
-| Bug fix, no behavior change | patch (`2.0.0` → `2.0.1`) |
-| New feature, backward compatible | minor (`2.0.0` → `2.1.0`) |
-| Breaking change (removed shortcode arg, renamed CSS class consumers depend on, ACF field rename) | major (`2.0.0` → `3.0.0`) |
-
-### Nested `.git` warning?
-
-If the parent theme is *also* a git repo, git will warn about the
-nested `.git` inside `dynamic-tables/`. Add `dynamic-tables/` to the
-parent's `.gitignore` — the component still works, it's just versioned
-separately (which is the goal).
-
----
-
 ## File structure
 
 ```
 dynamic-tables/
-├── README.md                  ← you are here
+├── README.md                  ← project overview + install
 ├── dynamic-tables.php         ← thin bootstrap + constants
 ├── dynamic-tables.css         ← shared shortcode styles
 ├── dynamic-tables.js          ← accordion controller (vanilla, no deps)
+├── docs/
+│   └── documentation.md       ← you are here
 └── includes/
     ├── assets.php             ← wp_register_style + wp_register_script
     ├── helpers.php            ← ecom_dt_format_price() + ecom_dt_render_wysiwyg() + filters
@@ -147,8 +70,8 @@ so they're safe to override from `wp-config.php` if ever needed:
   callback. `ecom_dynamic_tables_enqueue_assets()` calls `wp_register_*`
   for both `ecom-dynamic-tables-css` and `ecom-dynamic-tables-js`; the
   actual `wp_enqueue_*` calls live inside
-  `ecom_dt_render_dynamic_table()`. Pages without a shortcode never pull
-  either asset.
+  `ecom_dt_render_dynamic_table()`. Pages without a shortcode never
+  pull either asset.
 - **Cache-busting via `filemtime()`** — every deploy bumps the version
   string automatically; no manual version juggling.
 - **JS loads in the footer**, with no dependencies (no jQuery).
@@ -166,8 +89,8 @@ disclaimer footer. The first row renders open by default; the rest
 start collapsed and expand on click / Enter / Space.
 
 Reads the following ACF fields on the current post. The field names
-below are the **default schema** the shortcode expects — mirror these
-in your own ACF field group:
+are the **default schema** the shortcode expects — mirror these in
+your own ACF field group:
 
 | ACF field | Type | Required | Use |
 | --- | --- | --- | --- |
@@ -389,116 +312,6 @@ target these:
 
 ---
 
-## Upgrading to 2.0
-
-Version 2.0.0 strips the original brand-specific naming and switches
-to a generic `ecom-` prefix throughout. **Everything in the public
-surface was renamed.** Update consumer code as follows:
-
-### Shortcode
-
-| Before | After |
-| --- | --- |
-| `[tour_pricing]` | `[ecom_dynamic_table]` |
-
-There is no backward-compat alias — find-and-replace in your post
-content.
-
-### PHP constants, functions, hooks, namespace
-
-| Before | After |
-| --- | --- |
-| `BHT_DT_DIR` | `ECOM_DT_DIR` |
-| `BHT_DT_VERSION` | `ECOM_DT_VERSION` |
-| `bht_dynamic_tables_enqueue_assets()` | `ecom_dynamic_tables_enqueue_assets()` |
-| `bht_dt_format_price()` | `ecom_dt_format_price()` |
-| `bht_dt_render_wysiwyg()` | `ecom_dt_render_wysiwyg()` |
-| `bht_dt_render_tour_pricing()` | `ecom_dt_render_dynamic_table()` |
-| `bht_dt_currency_symbol` filter | `ecom_dt_currency_symbol` filter |
-| `bht_dt_format_price` filter | `ecom_dt_format_price` filter |
-| `BHT\DynamicTables` namespace | `Ecom\DynamicTables` |
-| `'bht'` text domain | `'ecom-dynamic-tables'` text domain |
-
-### Enqueue handles
-
-| Before | After |
-| --- | --- |
-| `dynamic-tables-css` | `ecom-dynamic-tables-css` |
-| `dynamic-tables-js` | `ecom-dynamic-tables-js` |
-
-### CSS classes
-
-The full markup is now `ecom-`-prefixed. Update any custom CSS in your
-child theme:
-
-| Before | After |
-| --- | --- |
-| `.tour-pricing-section` | `.ecom-pricing-section` |
-| `.tour-pricing-header` | `.ecom-pricing-header` |
-| `.tour-pricing-title` | `.ecom-pricing-title` |
-| `.tour-pricing-note` | `.ecom-pricing-note` |
-| `.tour-pricing-footer` | `.ecom-pricing-footer` |
-| `.tour-extensions-section` | `.ecom-extensions-section` |
-| `.tour-extensions-body` | `.ecom-extensions-body` |
-| `.tour-extension-info` | `.ecom-extension-info` |
-| `.tour-extension-itinerary` | `.ecom-extension-itinerary` |
-| `.departure-block` | `.ecom-row-block` |
-| `.departure-toggle` | `.ecom-row-toggle` |
-| `.departure-label` | `.ecom-row-label` |
-| `.departure-toggle-caption` | `.ecom-row-toggle-caption` |
-| `.departure-toggle-cta` | `.ecom-row-toggle-cta` |
-| `.departure-chevron` | `.ecom-row-chevron` |
-| `.departure-body` | `.ecom-row-body` |
-| `.departure-prices-table` | `.ecom-prices-table` |
-| `.departure-extras` | `.ecom-extras` |
-| `.departure-extras-price` | `.ecom-extras-price` |
-| `.land-only` | `.ecom-extras-land-only` |
-| `.single-supplement` | `.ecom-extras-single-supplement` |
-
-The CSS custom property `--bht-font-body` is now `--ecom-font-body`.
-
-### ACF fields — **unchanged**
-
-Field names (`tour_pricing_note`, `tour_departures`, `departure_*`,
-`tour_extension_*`, etc.) are kept as-is. No ACF-side migration is
-required.
-
----
-
 ## Changelog
 
-### `2.0.0`
-- **Breaking rename**: stripped brand-specific `bht` / `BHT` /
-  Blue Heart Travel naming throughout. New generic `ecom-` prefix on
-  PHP constants, functions, filters, namespace, text domain, enqueue
-  handles, ARIA id prefix, CSS classes, and the CSS custom property.
-- **Shortcode renamed**: `[tour_pricing]` → `[ecom_dynamic_table]`
-  (no backward-compat alias).
-- **Function renamed**: shortcode callback
-  `bht_dt_render_tour_pricing()` → `ecom_dt_render_dynamic_table()`.
-- **CSS classes renamed**: `.tour-*` → `.ecom-*`,
-  `.departure-*` → `.ecom-row-*` (state classes `.is-open` /
-  `.is-collapsed` unchanged).
-- ACF field names retained unchanged for data backwards compatibility.
-- README + `docs/documentation.md` rewritten for generic, public-facing
-  use.
-
-### `1.1.0`
-- Rows now render as an **accordion** (first row open, rest collapsed)
-  with a real `<button>` toggle, ARIA wiring, animated
-  `max-height` + `opacity` transitions, print and reduced-motion
-  fallbacks.
-- Added optional **Extensions** accordion below the pricing block,
-  gated by `tour_extensions_boolean` + presence of either
-  `tour_extension_info` / `tour_extension_itinerary`.
-- Added `dynamic-tables.js` (vanilla, footer-loaded, registered with
-  the same lazy-enqueue pattern as the CSS).
-- Added `ecom_dt_render_wysiwyg()` helper for `wptexturize`-free
-  WYSIWYG rendering (see Limitations for current usage gap).
-- Documented `ECOM_DT_DIR` / `ECOM_DT_VERSION` constants.
-
-### `1.0.0`
-- Initial pricing-table shortcode (static tables, no accordion).
-- `ecom_dt_format_price()` helper + `ecom_dt_currency_symbol` /
-  `ecom_dt_format_price` filters.
-- `ecom_dynamic_tables_enqueue_assets()` registers shared CSS lazily.
+See [`README.md`](../README.md#changelog) — single source of truth.

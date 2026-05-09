@@ -1,5 +1,5 @@
 /**
- * BHT Dynamic Tables — shared shortcode styles.
+ * Ecom Dynamic Tables — shared shortcode styles.
  *
  * Design tokens (keep in sync with README "Styling tokens"):
  *   surface              #FCFCFD
@@ -13,14 +13,14 @@
  */
 
 /* ── Pricing Section Container ──────────────────────────────────────── */
-.tour-pricing-section {
+.ecom-pricing-section {
     max-width: 900px;
     margin: 40px auto;
     font-family: inherit;
 }
 
 /* ── Header row: "Rates and Dates" + pricing note ──────────────────── */
-.tour-pricing-header {
+.ecom-pricing-header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -28,13 +28,13 @@
     margin-bottom: 30px;
 }
 
-.tour-pricing-title {
+.ecom-pricing-title {
     flex: 0 0 auto;
     width: auto;
     max-width: none;
     margin: 0;
     padding: 0;
-    font-family: var(--bht-font-body, inherit);
+    font-family: var(--ecom-font-body, inherit);
     font-size: 22px;
     font-weight: 600;
     line-height: 1.2;
@@ -42,13 +42,13 @@
     white-space: nowrap;
 }
 
-.tour-pricing-note {
+.ecom-pricing-note {
     flex: 1 1 0;
     min-width: 0;
     margin: 0;
     padding-left: 20px;
     border-left: 1px solid #CED3DC80;
-    font-family: var(--bht-font-body, inherit);
+    font-family: var(--ecom-font-body, inherit);
     font-size: 16px;
     line-height: 1.2;
     color: #384049;
@@ -56,30 +56,30 @@
 
 /* WYSIWYG output is wrapped in <p>; flatten its margins so the note
    sits flush inside the header row. */
-.tour-pricing-note > p {
+.ecom-pricing-note > p {
     margin: 0;
 }
-.tour-pricing-note > p + p {
+.ecom-pricing-note > p + p {
     margin-top: 0.4em;
 }
 
 /* When the note wraps to its own line, drop the inline divider. */
 @media (max-width: 600px) {
-    .tour-pricing-header {
+    .ecom-pricing-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
     }
-    .tour-pricing-note {
+    .ecom-pricing-note {
         padding-left: 0;
         border-left: 0;
     }
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   Departure block — accordion shell
+   Row block — accordion shell
    ───────────────────────────────────────────────────────────────────── */
-.departure-block {
+.ecom-row-block {
     background: #FCFCFD;
     border: 1px solid #CED3DC;
     border-radius: 12px;
@@ -88,7 +88,7 @@
 }
 
 /* ── Header row — full-width <button> reset ─────────────────────────── */
-.departure-toggle {
+.ecom-row-toggle {
     display: flex;
     align-items: center;
     gap: 16px;
@@ -103,15 +103,15 @@
     color: inherit;
 }
 
-.departure-toggle:focus-visible {
+.ecom-row-toggle:focus-visible {
     outline: 2px solid #1C4168;
     outline-offset: -2px;
     border-radius: 12px;
 }
 
-/* Date — Inter 600 / 20 / brand blue. Not a heading anymore (rendered
+/* Label — Inter 600 / 20 / brand blue. Not a heading anymore (rendered
    as a <span>) so reset margins explicitly. */
-.departure-toggle .departure-label {
+.ecom-row-toggle .ecom-row-label {
     flex: 0 0 auto;
     margin: 0;
     font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
@@ -122,9 +122,9 @@
 }
 
 /* Caption — only shown when the row is OPEN. Sits immediately to the
-   right of the date, left-aligned. The chevron is pushed to the far
+   right of the label, left-aligned. The chevron is pushed to the far
    right by `margin-left: auto` (see below). */
-.departure-toggle-caption {
+.ecom-row-toggle-caption {
     flex: 0 1 auto;
     text-align: left;
     font-size: 14px;
@@ -132,9 +132,8 @@
 }
 
 /* CTA — only shown when the row is COLLAPSED. Underlined link
-   affordance that mirrors the screenshot. Right-aligned via flex-grow
-   so it hugs the chevron. */
-.departure-toggle-cta {
+   affordance. Right-aligned via flex-grow so it hugs the chevron. */
+.ecom-row-toggle-cta {
     flex: 1 1 auto;
     text-align: right;
     font-size: 14px;
@@ -143,14 +142,14 @@
 }
 
 /* Visibility swap based on aria-expanded. */
-.departure-toggle[aria-expanded="true"]  .departure-toggle-cta     { display: none; }
-.departure-toggle[aria-expanded="false"] .departure-toggle-caption { display: none; }
+.ecom-row-toggle[aria-expanded="true"]  .ecom-row-toggle-cta     { display: none; }
+.ecom-row-toggle[aria-expanded="false"] .ecom-row-toggle-caption { display: none; }
 
 /* Chevron — same right-anchor in both states; rotates 180° when open
    so the arrowhead is identical, just flipped. `margin-left: auto`
    guarantees it sits flush right even when the caption is short and
    not flex-growing. */
-.departure-chevron {
+.ecom-row-chevron {
     flex: 0 0 auto;
     margin-left: auto;
     display: inline-flex;
@@ -158,12 +157,12 @@
     justify-content: center;
     transition: transform 0.22s ease;
 }
-.departure-chevron svg {
+.ecom-row-chevron svg {
     display: block;
     width: 14px;
     height: auto;
 }
-.departure-toggle[aria-expanded="true"] .departure-chevron {
+.ecom-row-toggle[aria-expanded="true"] .ecom-row-chevron {
     transform: rotate(180deg);
 }
 
@@ -171,13 +170,13 @@
 /* Collapsed state is driven by `.is-collapsed` (NOT the native `hidden`
    attribute) so the transition stays smooth. PHP renders rows 2+ with
    the class already applied so there's no flash of expanded content. */
-.departure-body {
+.ecom-row-body {
     overflow: hidden;
     opacity: 1;
     transition: max-height 0.22s ease, opacity 0.22s ease, padding 0.22s ease;
     padding: 0 25px 25px 25px;
 }
-.departure-body.is-collapsed {
+.ecom-row-body.is-collapsed {
     max-height: 0;
     opacity: 0;
     padding-top: 0;
@@ -189,15 +188,15 @@
    Header row shares the body's surface — no dark bar. Only difference
    between thead and tbody is font-weight on the column titles.
    ───────────────────────────────────────────────────────────────────── */
-.departure-prices-table {
+.ecom-prices-table {
     width: 100%;
     border-collapse: collapse;
     margin: 0;
     background: #FCFCFD;
 }
 
-.departure-prices-table th,
-.departure-prices-table td {
+.ecom-prices-table th,
+.ecom-prices-table td {
     padding: 12px 0;
     text-align: left;
     font-size: 15px;
@@ -209,32 +208,32 @@
 
 /* Column titles — only "Description" and "Est. Price ($)" are semibold
    inside the table per spec. */
-.departure-prices-table thead th {
+.ecom-prices-table thead th {
     font-weight: 600;
 }
 
 /* Right-align the price column (header + cells). */
-.departure-prices-table th:last-child,
-.departure-prices-table td:last-child {
+.ecom-prices-table th:last-child,
+.ecom-prices-table td:last-child {
     text-align: right;
     white-space: nowrap;
 }
 
 /* Price values — semibold orange. */
-.departure-prices-table tbody td:last-child {
+.ecom-prices-table tbody td:last-child {
     font-weight: 600;
     color: #D36815;
 }
 
 /* No divider under the last data row. */
-.departure-prices-table tbody tr:last-child td {
+.ecom-prices-table tbody tr:last-child td {
     border-bottom: none;
 }
 
 /* ── Land Only + Single Room Supplement ─────────────────────────────── */
 /* When both lines are present they sit in opposite corners; when only
    one is present it stays in its natural left position. */
-.departure-extras {
+.ecom-extras {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -244,7 +243,7 @@
     border-top: 1px solid #CED3DC80;
 }
 
-.departure-extras p {
+.ecom-extras p {
     margin: 0;
     font-size: 15px;
     color: #384049;
@@ -252,19 +251,19 @@
 }
 
 /* Labels stay regular weight per spec — only the numeric value is bold. */
-.departure-extras p strong {
+.ecom-extras p strong {
     font-weight: 400;
 }
 
-.departure-extras-price {
+.ecom-extras-price {
     font-weight: 600;
     color: #D36815;
     margin-left: 4px;
 }
 
-/* ── Footer (disclaimer block, rendered once below all departures) ──── */
+/* ── Footer (disclaimer block, rendered once below all rows) ────────── */
 /* Brand surface tint with a thick brand-grey accent on the left. */
-.tour-pricing-footer {
+.ecom-pricing-footer {
     margin-top: 30px;
     padding: 15px 20px;
     background: #FCFCFD;
@@ -274,59 +273,59 @@
     color: #555;
 }
 
-/* ── Optional Tour Extensions accordion (rendered below the footer) ─── */
-/* Reuses .departure-block / .departure-toggle / .departure-body so the
+/* ── Optional extensions accordion (rendered below the footer) ──────── */
+/* Reuses .ecom-row-block / .ecom-row-toggle / .ecom-row-body so the
    look + behavior are identical to the pricing accordion. This wrapper
    only adds top spacing so it doesn't hug whatever sits above. */
-.tour-extensions-section {
+.ecom-extensions-section {
     margin-top: 25px;
 }
 
 /* WYSIWYG content normalization — keep first/last child margins from
    creating uneven gaps inside the accordion body. */
-.tour-extensions-body > div > :first-child { margin-top: 0; }
-.tour-extensions-body > div > :last-child  { margin-bottom: 0; }
-.tour-extension-info { margin-bottom: 20px; }
-.tour-extension-info:last-child { margin-bottom: 0; }
+.ecom-extensions-body > div > :first-child { margin-top: 0; }
+.ecom-extensions-body > div > :last-child  { margin-bottom: 0; }
+.ecom-extension-info { margin-bottom: 20px; }
+.ecom-extension-info:last-child { margin-bottom: 0; }
 
 /* ─────────────────────────────────────────────────────────────────────
    Responsive
    ───────────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .departure-extras {
+    .ecom-extras {
         flex-direction: column;
         gap: 10px;
     }
-    .departure-prices-table th,
-    .departure-prices-table td {
+    .ecom-prices-table th,
+    .ecom-prices-table td {
         padding: 10px 0;
         font-size: 14px;
     }
 }
 
 @media (max-width: 600px) {
-    .departure-toggle {
+    .ecom-row-toggle {
         flex-wrap: wrap;
         gap: 8px 12px;
         padding: 16px 18px;
     }
-    /* On narrow screens: keep the date and the chevron on the first
+    /* On narrow screens: keep the label and the chevron on the first
        line with space between them, then wrap the caption / CTA onto
-       its own line below — left-aligned under the date. */
-    .departure-toggle .departure-label {
+       its own line below — left-aligned under the label. */
+    .ecom-row-toggle .ecom-row-label {
         flex: 1 1 auto;
     }
-    .departure-chevron {
+    .ecom-row-chevron {
         order: 2;
         margin-left: auto;
     }
-    .departure-toggle-caption,
-    .departure-toggle-cta {
+    .ecom-row-toggle-caption,
+    .ecom-row-toggle-cta {
         order: 3;
         flex: 1 1 100%;
         text-align: left;
     }
-    .departure-body {
+    .ecom-row-body {
         padding: 0 18px 18px 18px;
     }
 }
@@ -335,16 +334,16 @@
    Print: always show every row fully expanded, drop interactive chrome.
    ───────────────────────────────────────────────────────────────────── */
 @media print {
-    .departure-body.is-collapsed {
+    .ecom-row-body.is-collapsed {
         max-height: none !important;
         opacity: 1 !important;
         padding: 0 25px 25px 25px !important;
     }
-    .departure-chevron,
-    .departure-toggle-cta {
+    .ecom-row-chevron,
+    .ecom-row-toggle-cta {
         display: none !important;
     }
-    .departure-toggle-caption {
+    .ecom-row-toggle-caption {
         display: inline !important;
     }
 }
@@ -353,8 +352,8 @@
    Reduced motion: skip transitions entirely.
    ───────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-    .departure-body,
-    .departure-chevron {
+    .ecom-row-body,
+    .ecom-row-chevron {
         transition: none;
     }
 }

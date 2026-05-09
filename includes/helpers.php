@@ -5,7 +5,7 @@
  * Keep this file dependency-free — anything in here should be safe to call
  * from any shortcode without side effects.
  *
- * @package BHT\DynamicTables
+ * @package Ecom\DynamicTables
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,8 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param int|float|string $amount Raw value from ACF (numbers may arrive as strings).
  * @return string Already-escaped, ready to echo.
  */
-function bht_dt_format_price( $amount ) {
-    $symbol = apply_filters( 'bht_dt_currency_symbol', '$' );
+function ecom_dt_format_price( $amount ) {
+    $symbol = apply_filters( 'ecom_dt_currency_symbol', '$' );
     $value  = (float) $amount;
 
     /**
@@ -34,7 +34,7 @@ function bht_dt_format_price( $amount ) {
      * @param string           $symbol   Currency symbol used.
      */
     return apply_filters(
-        'bht_dt_format_price',
+        'ecom_dt_format_price',
         $symbol . number_format_i18n( $value, 2 ),
         $amount,
         $symbol
@@ -57,7 +57,7 @@ function bht_dt_format_price( $amount ) {
  * @param string $value Raw WYSIWYG value from ACF.
  * @return string Rendered HTML.
  */
-function bht_dt_render_wysiwyg( $value ) {
+function ecom_dt_render_wysiwyg( $value ) {
     if ( ! is_string( $value ) || '' === $value ) {
         return '';
     }

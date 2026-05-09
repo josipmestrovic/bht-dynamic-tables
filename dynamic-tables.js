@@ -1,8 +1,8 @@
 /**
- * BHT Dynamic Tables — departure accordion controller.
+ * Ecom Dynamic Tables — row accordion controller.
  *
  * Click (or Enter / Space — handled natively by <button>) on a
- * `.departure-toggle` toggles the linked `.departure-body`.
+ * `.ecom-row-toggle` toggles the linked `.ecom-row-body`.
  *
  * The collapsed state lives on a `.is-collapsed` class — NOT the native
  * `hidden` attribute — so we can animate `max-height` + `opacity`
@@ -63,7 +63,7 @@
     }
 
     document.addEventListener('click', function (event) {
-        var toggle = event.target.closest('.departure-toggle');
+        var toggle = event.target.closest('.ecom-row-toggle');
         if (!toggle) {
             return;
         }
@@ -72,7 +72,7 @@
         if (!body) {
             return;
         }
-        var block      = toggle.closest('.departure-block');
+        var block      = toggle.closest('.ecom-row-block');
         var isExpanded = toggle.getAttribute('aria-expanded') === 'true';
 
         toggle.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
