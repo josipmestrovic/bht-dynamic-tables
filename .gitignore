@@ -1,0 +1,21 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Build / deps (future-proofing — none used today)
+node_modules/
+vendor/
+
+# Generated
+*.log
+
+# Generated PDFs from README (we keep README.md as source of truth)
+README.pdf

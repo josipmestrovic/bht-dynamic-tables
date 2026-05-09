@@ -1,0 +1,360 @@
+/**
+ * BHT Dynamic Tables — shared shortcode styles.
+ *
+ * Design tokens (keep in sync with README "Styling tokens"):
+ *   surface              #FCFCFD
+ *   border               #CED3DC
+ *   table divider        #CED3DC80   (50% opacity, doubles as thead underline)
+ *   date / heading       #1C4168
+ *   body / table strings #384049
+ *   price (semibold)     #D36815
+ *   radius               12px
+ *   date typography      Inter 600 / 20px
+ */
+
+/* ── Pricing Section Container ──────────────────────────────────────── */
+.tour-pricing-section {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: inherit;
+}
+
+/* ── Header row: "Rates and Dates" + pricing note ──────────────────── */
+.tour-pricing-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.tour-pricing-title {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--bht-font-body, inherit);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #242226;
+    white-space: nowrap;
+}
+
+.tour-pricing-note {
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 0;
+    padding-left: 20px;
+    border-left: 1px solid #CED3DC80;
+    font-family: var(--bht-font-body, inherit);
+    font-size: 16px;
+    line-height: 1.2;
+    color: #384049;
+}
+
+/* WYSIWYG output is wrapped in <p>; flatten its margins so the note
+   sits flush inside the header row. */
+.tour-pricing-note > p {
+    margin: 0;
+}
+.tour-pricing-note > p + p {
+    margin-top: 0.4em;
+}
+
+/* When the note wraps to its own line, drop the inline divider. */
+@media (max-width: 600px) {
+    .tour-pricing-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .tour-pricing-note {
+        padding-left: 0;
+        border-left: 0;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Departure block — accordion shell
+   ───────────────────────────────────────────────────────────────────── */
+.departure-block {
+    background: #FCFCFD;
+    border: 1px solid #CED3DC;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    overflow: hidden; /* clip body during height transitions */
+}
+
+/* ── Header row — full-width <button> reset ─────────────────────────── */
+.departure-toggle {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 25px;
+    background: transparent;
+    border: 0;
+    margin: 0;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+}
+
+.departure-toggle:focus-visible {
+    outline: 2px solid #1C4168;
+    outline-offset: -2px;
+    border-radius: 12px;
+}
+
+/* Date — Inter 600 / 20 / brand blue. Not a heading anymore (rendered
+   as a <span>) so reset margins explicitly. */
+.departure-toggle .departure-label {
+    flex: 0 0 auto;
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.2;
+    color: #1C4168;
+}
+
+/* Caption — only shown when the row is OPEN. Sits immediately to the
+   right of the date, left-aligned. The chevron is pushed to the far
+   right by `margin-left: auto` (see below). */
+.departure-toggle-caption {
+    flex: 0 1 auto;
+    text-align: left;
+    font-size: 14px;
+    color: #384049;
+}
+
+/* CTA — only shown when the row is COLLAPSED. Underlined link
+   affordance that mirrors the screenshot. Right-aligned via flex-grow
+   so it hugs the chevron. */
+.departure-toggle-cta {
+    flex: 1 1 auto;
+    text-align: right;
+    font-size: 14px;
+    color: #1C4168;
+    text-decoration: underline;
+}
+
+/* Visibility swap based on aria-expanded. */
+.departure-toggle[aria-expanded="true"]  .departure-toggle-cta     { display: none; }
+.departure-toggle[aria-expanded="false"] .departure-toggle-caption { display: none; }
+
+/* Chevron — same right-anchor in both states; rotates 180° when open
+   so the arrowhead is identical, just flipped. `margin-left: auto`
+   guarantees it sits flush right even when the caption is short and
+   not flex-growing. */
+.departure-chevron {
+    flex: 0 0 auto;
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.22s ease;
+}
+.departure-chevron svg {
+    display: block;
+    width: 14px;
+    height: auto;
+}
+.departure-toggle[aria-expanded="true"] .departure-chevron {
+    transform: rotate(180deg);
+}
+
+/* ── Body wrapper — animates height + opacity ───────────────────────── */
+/* Collapsed state is driven by `.is-collapsed` (NOT the native `hidden`
+   attribute) so the transition stays smooth. PHP renders rows 2+ with
+   the class already applied so there's no flash of expanded content. */
+.departure-body {
+    overflow: hidden;
+    opacity: 1;
+    transition: max-height 0.22s ease, opacity 0.22s ease, padding 0.22s ease;
+    padding: 0 25px 25px 25px;
+}
+.departure-body.is-collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Prices table
+   Header row shares the body's surface — no dark bar. Only difference
+   between thead and tbody is font-weight on the column titles.
+   ───────────────────────────────────────────────────────────────────── */
+.departure-prices-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    background: #FCFCFD;
+}
+
+.departure-prices-table th,
+.departure-prices-table td {
+    padding: 12px 0;
+    text-align: left;
+    font-size: 15px;
+    color: #384049;
+    font-weight: 400;
+    background: #FCFCFD;
+    border-bottom: 1px solid #CED3DC80;
+}
+
+/* Column titles — only "Description" and "Est. Price ($)" are semibold
+   inside the table per spec. */
+.departure-prices-table thead th {
+    font-weight: 600;
+}
+
+/* Right-align the price column (header + cells). */
+.departure-prices-table th:last-child,
+.departure-prices-table td:last-child {
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* Price values — semibold orange. */
+.departure-prices-table tbody td:last-child {
+    font-weight: 600;
+    color: #D36815;
+}
+
+/* No divider under the last data row. */
+.departure-prices-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ── Land Only + Single Room Supplement ─────────────────────────────── */
+/* When both lines are present they sit in opposite corners; when only
+   one is present it stays in its natural left position. */
+.departure-extras {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px 30px;
+    margin-top: 0;
+    padding-top: 15px;
+    border-top: 1px solid #CED3DC80;
+}
+
+.departure-extras p {
+    margin: 0;
+    font-size: 15px;
+    color: #384049;
+    font-weight: 400;
+}
+
+/* Labels stay regular weight per spec — only the numeric value is bold. */
+.departure-extras p strong {
+    font-weight: 400;
+}
+
+.departure-extras-price {
+    font-weight: 600;
+    color: #D36815;
+    margin-left: 4px;
+}
+
+/* ── Footer (disclaimer block, rendered once below all departures) ──── */
+/* Brand surface tint with a thick brand-grey accent on the left. */
+.tour-pricing-footer {
+    margin-top: 30px;
+    padding: 15px 20px;
+    background: #FCFCFD;
+    border: 0;
+    border-left: 12px solid #CED3DC;
+    font-size: 14px;
+    color: #555;
+}
+
+/* ── Optional Tour Extensions accordion (rendered below the footer) ─── */
+/* Reuses .departure-block / .departure-toggle / .departure-body so the
+   look + behavior are identical to the pricing accordion. This wrapper
+   only adds top spacing so it doesn't hug whatever sits above. */
+.tour-extensions-section {
+    margin-top: 25px;
+}
+
+/* WYSIWYG content normalization — keep first/last child margins from
+   creating uneven gaps inside the accordion body. */
+.tour-extensions-body > div > :first-child { margin-top: 0; }
+.tour-extensions-body > div > :last-child  { margin-bottom: 0; }
+.tour-extension-info { margin-bottom: 20px; }
+.tour-extension-info:last-child { margin-bottom: 0; }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .departure-extras {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .departure-prices-table th,
+    .departure-prices-table td {
+        padding: 10px 0;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .departure-toggle {
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        padding: 16px 18px;
+    }
+    /* On narrow screens: keep the date and the chevron on the first
+       line with space between them, then wrap the caption / CTA onto
+       its own line below — left-aligned under the date. */
+    .departure-toggle .departure-label {
+        flex: 1 1 auto;
+    }
+    .departure-chevron {
+        order: 2;
+        margin-left: auto;
+    }
+    .departure-toggle-caption,
+    .departure-toggle-cta {
+        order: 3;
+        flex: 1 1 100%;
+        text-align: left;
+    }
+    .departure-body {
+        padding: 0 18px 18px 18px;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Print: always show every row fully expanded, drop interactive chrome.
+   ───────────────────────────────────────────────────────────────────── */
+@media print {
+    .departure-body.is-collapsed {
+        max-height: none !important;
+        opacity: 1 !important;
+        padding: 0 25px 25px 25px !important;
+    }
+    .departure-chevron,
+    .departure-toggle-cta {
+        display: none !important;
+    }
+    .departure-toggle-caption {
+        display: inline !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Reduced motion: skip transitions entirely.
+   ───────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .departure-body,
+    .departure-chevron {
+        transition: none;
+    }
+}

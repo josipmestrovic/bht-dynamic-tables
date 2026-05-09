@@ -1,0 +1,16 @@
+{
+    "name": "josipmestrovic/bht-dynamic-tables",
+    "description": "ACF-driven shortcodes for rendering dynamic tables (tour pricing + optional tour-extensions accordion) on WordPress.",
+    "type": "wordpress-muplugin",
+    "license": "MIT",
+    "keywords": ["wordpress", "acf", "shortcode", "tour", "pricing", "accordion"],
+    "homepage": "https://github.com/josipmestrovic/bht-dynamic-tables",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "files": [
+            "dynamic-tables.php"
+        ]
+    }
+}
