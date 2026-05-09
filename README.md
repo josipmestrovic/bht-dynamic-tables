@@ -8,6 +8,8 @@ tables (with an optional extensions accordion) on any WordPress site.
 > **Upgrading from 1.x?** This is a breaking release. See
 > [Upgrading to 2.0](#upgrading-to-20) at the bottom.
 
+![Ecom Dynamic Tables — front-end preview](screenshot.png)
+
 ---
 
 ## Install
